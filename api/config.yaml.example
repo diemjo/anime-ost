@@ -1,0 +1,8 @@
+server_port: 443
+proxer_username: "user"
+proxer_password: "password"
+proxer_users:
+  - 238551383
+  - 2
+  - 4
+db_path: "ost.db"
