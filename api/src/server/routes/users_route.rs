@@ -2,6 +2,10 @@ use rocket::{State};
 
 use crate::{config::AppConfig, server::user::RequestUser, error::Result, proxer::AnimeDB};
 
+pub(crate) fn get_routes() -> Vec<rocket::Route> {
+    rocket::routes![get_users]
+}
+
 #[rocket::get("/users")]
 pub(crate) async fn get_users(config: &State<AppConfig>, _user: RequestUser) -> Result<String> {
     let ost_db = AnimeDB::new(&config.db_path).await?;

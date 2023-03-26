@@ -87,9 +87,9 @@ impl Display for Anime {
 
 #[derive(Debug, Serialize)]
 pub(crate) struct AnimeUserEntry {
-    #[serde(with = "anime_user_entry_format")]
+    #[serde(with = "anime_user_entry_format")] // only serialize key
     anime: Anime,
-    #[serde(with = "anime_user_format")]
+    #[serde(with = "anime_user_format")] // only serialize key
     user: AnimeUser,
     progress: u32,
 }

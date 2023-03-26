@@ -8,12 +8,7 @@ pub async fn launch_server(config: AppConfig) -> Result<()>{
         .merge(("port", config.server_port));
 
     let _rocket = rocket::custom(figment)
-        .mount("/api", rocket::routes![
-            routes::get_proxer,
-            routes::get_anime,
-            routes::get_useranime,
-            routes::get_users,
-        ])
+        .mount("/api", routes::get_routes())
         .manage(config)
         .launch()
         .await?;

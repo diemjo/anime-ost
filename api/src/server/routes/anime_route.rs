@@ -2,6 +2,10 @@ use rocket::State;
 
 use crate::{config::AppConfig, error::Result, proxer::AnimeDB, server::user::RequestUser};
 
+pub(crate) fn get_routes() -> Vec<rocket::Route> {
+    rocket::routes![get_anime]
+}
+
 #[rocket::get("/anime", format = "json")]
 pub(crate) async fn get_anime(config: &State<AppConfig>, _user: RequestUser) -> Result<String> {
     let ost_db = AnimeDB::new(&config.db_path).await?;

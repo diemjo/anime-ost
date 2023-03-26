@@ -1,6 +1,12 @@
+use std::vec;
+
 use rocket::State;
 
 use crate::{config::AppConfig, error::Result, proxer::{AnimeDB, refresh_proxer}};
+
+pub(crate) fn get_routes() -> Vec<rocket::Route> {
+    rocket::routes![get_proxer]
+}
 
 #[rocket::get("/proxer")]
 pub(crate) async fn get_proxer(config: &State<AppConfig>) -> Result<String> {
