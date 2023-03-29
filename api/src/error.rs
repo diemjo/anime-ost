@@ -1,5 +1,9 @@
-use rocket::{response::Responder, http::Status};
+use rocket::{response::{Responder, content}, http::Status, Response};
+use serde::Serialize;
+use serde_json::json;
 use thiserror::Error;
+
+use crate::models::OstType;
 
 pub type Result<T> = std::result::Result<T, Error>;
 
@@ -20,8 +24,11 @@ pub enum Error {
     DirectoryCreateError(#[source] std::io::Error),
 
     // sql
-    #[error("Failed underlying SQLite call: {0}")]
+    #[error("failed underlying SQLite call: {0}")]
     SQLError(#[from] rusqlite::Error),
+
+    #[error("enum parse error: {0}")]
+    EnumParseError(String),
 
     // rocket
     #[error("rocket error: {0}")]
@@ -29,32 +36,75 @@ pub enum Error {
 
     #[error("cannot read user from headers")]
     AuthError(),
+    
+    // data
+    #[error("ost does not exist: Anime {0} {1:?} {2}")]
+    MissingOstError(u32, OstType, u32),
+
+    #[error("anime with id {0} does not exist")]
+    MissingAnimeError(u32),
 
     // config
-    #[error("Error parsing config: {0}")]
+    #[error("error parsing config: {0}")]
     FigmentError(#[source] figment::Error),
 
-    // parse
-    #[error("Error parsing main anime table")]
+    // html parse
+    #[error("error parsing main anime table")]
     MainTableParseError(),
 
-    #[error("Error parsing user name")]
+    #[error("error parsing user name")]
     UserNameParseError(),
 
-    #[error("No access permissions for proxer, maybe login first")]
+    #[error("no access permissions for proxer, maybe login first")]
     ProxerAccessError(),
 
-    #[error("Error parsing anime table for rows, no rows found, expecting at least one entry")]
+    #[error("error parsing anime table for rows, no rows found, expecting at least one entry")]
     AnimeRowParseError(),
 
-    #[error("Error parsing anime row for {0}")]
+    #[error("error parsing anime row for {0}")]
     AnimeRowFieldParseError(String),
 }
 
 impl<'r, 'o: 'r> Responder<'r, 'o> for Error {
     fn respond_to(self, request: &'r rocket::Request<'_>) -> rocket::response::Result<'o> {
         match self {
-            _ => Status::InternalServerError.respond_to(request)
+            Self::MissingOstError(_, _, _) |
+            Self::MissingAnimeError(_) => self.response_with_status(request, Status::NotFound),
+            _ => self.response_with_status(request, Status::InternalServerError)
         }
     }
+}
+
+impl Error {
+    fn response_with_status(&self, request: &rocket::Request, status: Status) -> rocket::response::Result<'static> {
+        Response::build_from(wrap_err(self.to_string()).respond_to(request).unwrap())
+            .status(status)
+            .ok()
+    }
+}
+
+pub fn wrap_ok<S: Serialize>(serializable: S) -> content::RawJson<String> {
+    wrap_ok_with_warnings(serializable, &([] as [&str; 0]))
+}
+
+pub fn wrap_ok_with_warnings<S: Serialize, M: Serialize>(serializable: S, messages: &[M]) -> content::RawJson<String> {
+    content::RawJson(serde_json::to_string(&json!({
+        "messages": messages.iter().map(|m| {
+            json!({
+                "type": "warning",
+                "value": m,
+            })
+        }).collect::<Vec<_>>(),
+        "data": serializable,
+    })).unwrap())
+}
+
+fn wrap_err<S: Serialize>(serializable: S) -> content::RawJson<String> {
+    content::RawJson(serde_json::to_string(&json!({
+        "messages": [json!({
+                "type": "error",
+                "value": serializable,
+            })],
+        "data": None as Option<String>,
+    })).unwrap())
 }

@@ -1,15 +1,16 @@
-use rocket::State;
+use rocket::{State, response::content};
 
-use crate::{config::AppConfig, error::Result, proxer::AnimeDB, server::user::RequestUser};
+use crate::{config::AppConfig, error::{Result, wrap_ok}, proxer::AnimeDB, server::user::RequestUser};
 
 pub(crate) fn get_routes() -> Vec<rocket::Route> {
-    rocket::routes![get_anime]
+    rocket::routes![
+        get_anime
+    ]
 }
 
-#[rocket::get("/anime", format = "json")]
-pub(crate) async fn get_anime(config: &State<AppConfig>, _user: RequestUser) -> Result<String> {
+#[rocket::get("/anime", format = "application/json")]
+pub(crate) async fn get_anime(config: &State<AppConfig>, _user: RequestUser) -> Result<content::RawJson<String>> {
     let ost_db = AnimeDB::new(&config.db_path).await?;
     let anime_list = ost_db.get_all_anime()?;
-    let json = serde_json::to_string(&anime_list).unwrap();
-    Ok(json)
+    Ok(wrap_ok(anime_list))
 }
