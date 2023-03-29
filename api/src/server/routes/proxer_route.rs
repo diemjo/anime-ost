@@ -2,7 +2,7 @@ use std::vec;
 
 use rocket::{State, response::content};
 
-use crate::{config::AppConfig, error::{Result, wrap_ok}, proxer::{AnimeDB, refresh_proxer}};
+use crate::{config::AppConfig, result::{Result, wrap_ok}, proxer::{AnimeDB, refresh_proxer}};
 
 pub(crate) fn get_routes() -> Vec<rocket::Route> {
     rocket::routes![

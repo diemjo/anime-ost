@@ -2,7 +2,7 @@ use std::path::{Path, PathBuf};
 
 use rusqlite::Connection;
 
-use crate::{error::{Result, Error}, models::{Anime, AnimeUserEntry, AnimeUser, AnimeOst, OstType}};
+use crate::{error::Error, result::Result, models::{Anime, AnimeUserEntry, AnimeUser, AnimeOst, OstType}};
 
 mod db_init;
 mod db_calls;

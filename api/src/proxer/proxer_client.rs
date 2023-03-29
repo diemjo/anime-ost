@@ -3,7 +3,7 @@ use std::time::{Duration, Instant};
 
 use reqwest::{Method, Request, Url};
 
-use crate::{error::{Result, Error}, proxer::html};
+use crate::{error::Error, result::Result, proxer::html};
 
 use crate::models::AnimeUserEntry;
 

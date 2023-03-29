@@ -5,7 +5,8 @@ use figment::Figment;
 use figment::providers::{Format, Serialized, Yaml, Env};
 use serde_derive::{Deserialize,Serialize};
 
-use crate::error::{Result, Error};
+use crate::error::Error;
+use crate::result::Result;
 
 #[derive(Debug, PartialEq, Deserialize, Serialize)]
 pub struct AppConfig {

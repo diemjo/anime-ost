@@ -1,5 +1,5 @@
 use crate::models::{Anime, AnimeUserEntry};
-use crate::{config::AppConfig, error::Result};
+use crate::{config::AppConfig, result::Result};
 pub(crate) use crate::db::AnimeDB;
 
 use proxer_client::ProxerClient;

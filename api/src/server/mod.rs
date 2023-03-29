@@ -1,6 +1,6 @@
 use serde::{Deserialize, Deserializer};
 
-use crate::{error::Result, config::AppConfig};
+use crate::{result::Result, config::AppConfig};
 
 mod routes;
 mod user;

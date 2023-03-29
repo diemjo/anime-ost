@@ -5,7 +5,8 @@ use select::document::Document;
 use select::node::Node;
 use select::predicate::{Attr, Name, Class, Predicate};
 
-use crate::error::{Error, Result};
+use crate::error::Error;
+use crate::result::Result;
 use crate::models::AnimeUser;
 
 use super::{AnimeUserEntry, Anime};

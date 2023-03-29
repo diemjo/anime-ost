@@ -2,7 +2,7 @@ use std::path::Path;
 
 use rusqlite::{Connection, OpenFlags};
 
-use crate::error::Result;
+use crate::result::Result;
 
 use super::db_calls;
 

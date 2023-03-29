@@ -1,7 +1,7 @@
 use rocket::{State, serde::json::Json, response::content};
 use serde::Deserialize;
 
-use crate::{config::AppConfig, error::{Result, Error, wrap_ok}, proxer::AnimeDB, server::{user::RequestUser, deserialize_error_on_missing}, models::OstType};
+use crate::{config::AppConfig, result::{Result, wrap_ok}, error::Error, proxer::AnimeDB, server::{user::RequestUser, deserialize_error_on_missing}, models::OstType};
 
 #[derive(Debug, Deserialize)]
 pub(crate) struct OstInput {

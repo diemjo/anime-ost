@@ -1,6 +1,6 @@
 use rocket::{State, response::content};
 
-use crate::{config::AppConfig, error::{Result, wrap_ok}, proxer::AnimeDB, server::user::RequestUser};
+use crate::{config::AppConfig, result::{Result, wrap_ok}, proxer::AnimeDB, server::user::RequestUser};
 
 pub(crate) fn get_routes() -> Vec<rocket::Route> {
     rocket::routes![

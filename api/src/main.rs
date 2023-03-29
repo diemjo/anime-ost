@@ -1,12 +1,15 @@
-use crate::error::Result;
 use crate::config::AppConfig;
+use crate::result::Result;
 
 mod proxer;
 mod db;
 mod config;
 mod server;
-mod error;
+mod common;
 mod models;
+
+pub use common::error;
+pub use common::result;
 
 #[rocket::main]
 async fn main() -> Result<()> {

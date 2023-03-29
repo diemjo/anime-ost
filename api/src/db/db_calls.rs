@@ -1,6 +1,6 @@
 use rusqlite::{Connection, named_params};
 
-use crate::{error::Result, models::{Anime, AnimeUserEntry, AnimeUser, AnimeOst, OstType}};
+use crate::{result::Result, models::{Anime, AnimeUserEntry, AnimeUser, AnimeOst, OstType}};
 
 use super::sqlite_statements;
 
