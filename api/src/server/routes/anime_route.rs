@@ -8,7 +8,7 @@ pub(crate) fn get_routes() -> Vec<rocket::Route> {
     ]
 }
 
-#[rocket::get("/anime", format = "application/json")]
+#[rocket::get("/anime")]
 pub(crate) async fn get_anime(config: &State<AppConfig>, _user: RequestUser) -> Result<content::RawJson<String>> {
     let ost_db = AnimeDB::new(&config.db_path).await?;
     let anime_list = ost_db.get_all_anime()?;

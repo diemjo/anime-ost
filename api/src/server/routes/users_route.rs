@@ -8,7 +8,7 @@ pub(crate) fn get_routes() -> Vec<rocket::Route> {
     ]
 }
 
-#[rocket::get("/users", format = "application/json")]
+#[rocket::get("/users")]
 pub(crate) async fn get_users(config: &State<AppConfig>, _user: RequestUser) -> Result<content::RawJson<String>> {
     let ost_db = AnimeDB::new(&config.db_path).await?;
     let user_list = ost_db.get_all_users()?;

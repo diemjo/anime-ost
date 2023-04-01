@@ -91,9 +91,9 @@ impl Display for Anime {
 
 #[derive(Debug, Serialize)]
 pub(crate) struct AnimeUserEntry {
-    #[serde(with = "anime_user_entry_format")] // only serialize key
+    #[serde(rename = "proxer_id", with = "anime_user_entry_format")] // only serialize key
     anime: Anime,
-    #[serde(with = "anime_user_format")] // only serialize key
+    #[serde(rename = "user_id", with = "anime_user_format")] // only serialize key
     user: AnimeUser,
     progress: u32,
 }
@@ -250,7 +250,7 @@ mod anime_user_entry_format {
     use super::Anime;
 
     pub(super) fn serialize<S: Serializer>(anime: &Anime, serializer: S) -> Result<S::Ok, S::Error> {
-        serializer.serialize_str(&anime.proxer_id().to_string())
+        serializer.serialize_u32(anime.proxer_id())
     }
 }
 
@@ -260,6 +260,6 @@ mod anime_user_format {
     use super::AnimeUser;
 
     pub(super) fn serialize<S: Serializer>(user: &AnimeUser, serializer: S) -> Result<S::Ok, S::Error> {
-        serializer.serialize_str(&user.user_id().to_string())
+        serializer.serialize_u32(user.user_id())
     }
 }

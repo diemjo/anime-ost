@@ -22,14 +22,14 @@ pub(crate) fn get_routes() -> Vec<rocket::Route> {
     ]
 }
 
-#[rocket::get("/ost", format = "application/json")]
+#[rocket::get("/ost")]
 pub(crate) async fn get_ost(config: &State<AppConfig>, _user: RequestUser) -> Result<content::RawJson<String>> {
     let ost_db = AnimeDB::new(&config.db_path).await?;
     let ost_list = ost_db.get_all_ost()?;
     Ok(wrap_ok(ost_list))
 }
 
-#[rocket::get("/ost/<proxer_id>/<ost_type>/<number>", format = "application/json")]
+#[rocket::get("/ost/<proxer_id>/<ost_type>/<number>")]
 pub(crate) async fn get_ost_single(config: &State<AppConfig>, _user: RequestUser, proxer_id: u32, ost_type: OstType, number: u32) -> Result<content::RawJson<String>> {
     let ost_db = AnimeDB::new(&config.db_path).await?;
     match ost_db.get_ost(proxer_id, ost_type, number)? {
