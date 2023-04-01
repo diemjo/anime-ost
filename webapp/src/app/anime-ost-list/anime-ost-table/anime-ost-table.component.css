@@ -1,0 +1,32 @@
+app-anime-ost-entry {
+    height: 100%;
+}
+
+.anime-ost-table {
+    width: 100%;
+    border: 2px;
+    border-style: solid;
+    border-color: #006688;
+    border-collapse: collapse;
+    background-color: #f0ffff;
+}
+
+.anime-ost-header {
+    border: 3px;
+    border-style: solid;
+    border-color: #006688;
+    background-color: #c0ffff;
+}
+
+.anime-ost-header a {
+    color: #000000;
+    text-decoration: none;
+}
+
+.anime-ost-cell {
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 2px;
+    border-style: solid;
+    border-color: #006688;
+}

@@ -1,0 +1,19 @@
+<label>
+    <input type="checkbox" [(ngModel)]="allUsersSelected" (change)="checkAllCheckboxes()"/>
+    All
+</label>
+<label *ngFor="let userCheckbox of userCheckboxes">
+    <input type="checkbox" [(ngModel)]="userCheckbox.isSelected" value="{{userCheckbox.value}}" (change)="checkAllCheckboxesSelected()">
+    {{userCheckbox.value}}
+</label>
+<table *ngIf="selectedUserList.length!=0" class="anime-ost-table">
+    <tr class="anime-ost-row"></tr>
+        <th *ngFor="let user of selectedUserList" class="anime-ost-header">
+            <a href="https://proxer.me/user/{{user.user_id}}">{{user.user_name}}</a>
+        </th>
+    <tr *ngFor="let row of rowDataList">
+        <td *ngFor="let user of selectedUserList" class="anime-ost-cell">
+            <app-anime-ost-entry [user]="user" [anime]="row.anime" [userAnime]="getUserAnimeFor(user.user_id, row)" [ostList]="row.ost"></app-anime-ost-entry>
+        </td>
+    </tr>
+</table>

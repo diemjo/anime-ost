@@ -1,0 +1,8 @@
+<div *ngIf="userAnime !== undefined" class="entry-div">
+    <div class="anime-thumbnail">
+        <img src="https://cdn.proxer.me/cover/{{anime!.proxer_id}}.jpg">
+    </div>
+    <p class="anime-title">
+        <a href="https://proxer.me/info/{{anime!.proxer_id}}">{{anime!.proxer_name}}</a>
+    </p>
+</div>
