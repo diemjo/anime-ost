@@ -17,15 +17,7 @@ export class UserService {
   ) { }
 
   getUsers(): Observable<Array<User>> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'HTTP_REMOTE_USER': 'jo',
-        'HTTP_REMOTE_NAME': 'joris',
-        'HTTP_REMOTE_GROUPS': 'admin,yay',
-        'HTTP_REMOTE_EMAIL': 'jo@example.com',
-      })
-    };
-    return this.http.get<AnimeOstResponse<Array<User>>>(this.usersUrl, httpOptions)
+    return this.http.get<AnimeOstResponse<Array<User>>>(this.usersUrl)
       .pipe(
         map(resp => mapUsers(resp)),
         tap(users => this.log(`fetched ${(users as Array<User>).length} users`)),

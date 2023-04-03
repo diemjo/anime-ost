@@ -17,15 +17,7 @@ export class AnimeService {
   ) { }
 
   getAnime(): Observable<Array<Anime>> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'HTTP_REMOTE_USER': 'jo',
-        'HTTP_REMOTE_NAME': 'joris',
-        'HTTP_REMOTE_GROUPS': 'admin',
-        'HTTP_REMOTE_EMAIL': 'jo@example.com',
-      })
-    };
-    return this.http.get<AnimeOstResponse<Array<Anime>>>(this.animeUrl, httpOptions)
+    return this.http.get<AnimeOstResponse<Array<Anime>>>(this.animeUrl)
       .pipe(
         map(resp => mapAnime(resp)),
         tap(_ => this.log('fetched anime')),
@@ -34,15 +26,7 @@ export class AnimeService {
   }
 
   getUserAnime(): Observable<Array<UserAnime>> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'HTTP_REMOTE_USER': 'jo',
-        'HTTP_REMOTE_NAME': 'joris',
-        'HTTP_REMOTE_GROUPS': 'admin',
-        'HTTP_REMOTE_EMAIL': 'jo@example.com',
-      })
-    };
-    return this.http.get<AnimeOstResponse<Array<UserAnime>>>(this.userAnimeUrl, httpOptions)
+    return this.http.get<AnimeOstResponse<Array<UserAnime>>>(this.userAnimeUrl)
       .pipe(
         map(resp => mapUserAnime(resp)),
         tap(_ => this.log('fetched user anime')),

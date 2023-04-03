@@ -15,15 +15,7 @@ export class OstService {
   ) { }
 
   getOst(): Observable<Array<Ost>> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'HTTP_REMOTE_USER': 'jo',
-        'HTTP_REMOTE_NAME': 'joris',
-        'HTTP_REMOTE_GROUPS': 'admin',
-        'HTTP_REMOTE_EMAIL': 'jo@example.com',
-      })
-    };
-    return this.http.get<AnimeOstResponse<Array<Ost>>>(this.ostUrl, httpOptions)
+    return this.http.get<AnimeOstResponse<Array<Ost>>>(this.ostUrl)
       .pipe(
         map(resp => mapOst(resp)),
         tap(_ => this.log('fetched ost')),
