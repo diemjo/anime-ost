@@ -1,0 +1,33 @@
+:host {
+    /* modals are hidden by default */
+    display: none;
+}
+
+
+
+:host .anime-ost-modal {
+    /* modal container fixed across whole screen */
+    position: fixed;
+    inset: 0;
+
+    /* z-index must be higher than everything else on the page */
+    z-index: 10000;
+
+    /* semi-transparent black background exposed by padding */
+    background-color: rgba(0, 0, 0, .75);
+    padding: 100px;
+
+    /* enables scrolling for tall modals */
+    overflow: auto;
+}
+
+:host .anime-ost-modal-body {
+    padding: 15px;
+    background: #fffaff;
+    border-radius: 15px;
+}
+
+body .anime-ost-modal-open {
+    /* body overflow is hidden to hide main scrollbar when modal window is open */
+    overflow: hidden;
+}

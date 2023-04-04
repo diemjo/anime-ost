@@ -3,6 +3,7 @@ import { Anime } from 'src/app/models/anime';
 import { Ost } from 'src/app/models/ost';
 import { User } from 'src/app/models/user';
 import { UserAnime } from 'src/app/models/useranime';
+import { ModalService } from 'src/app/services/modal.service';
 
 @Component({
   selector: 'app-anime-ost-entry',
@@ -23,9 +24,13 @@ export class AnimeOstEntryComponent {
   @Input()
   ostList: Array<Ost> | undefined;
   
-  constructor() {}
+  constructor(private modalService: ModalService) {}
 
   ngOnInit(): void {
 
+  }
+
+  openOstModal(): void {
+    this.modalService.open(`ost-modal-${this.anime?.proxer_id}`, false)
   }
 }

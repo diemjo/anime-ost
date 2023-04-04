@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, Observable, of, tap } from 'rxjs';
+import { catchError, map, Observable, of, startWith, Subject, switchMap, tap } from 'rxjs';
 import { Anime } from '../models/anime';
 import { AnimeOstResponse, mapAnime, mapUserAnime } from '../models/response';
 import { UserAnime } from '../models/useranime';
@@ -12,11 +12,30 @@ export class AnimeService {
   private animeUrl = '/api/anime';
   private userAnimeUrl = '/api/useranime';
 
+  private animeUpdated$ = new Subject<void>();
+  private anime$: Observable<Array<Anime>>;
+
+  private userAnimeUpdated$ = new Subject<void>();
+  private userAnime$: Observable<Array<UserAnime>>;
+
   constructor(
     private http: HttpClient,
-  ) { }
+  ) {
+    this.anime$ = this.animeUpdated$.pipe(
+      startWith({}),
+      switchMap(() => this.loadAnime())
+    );
+    this.userAnime$ = this.userAnimeUpdated$.pipe(
+      startWith({}),
+      switchMap(() => this.loadUserAnime())
+    );
+  }
 
-  getAnime(): Observable<Array<Anime>> {
+  onAnime(): Observable<Array<Anime>> {
+    return this.anime$;
+  }
+
+  private loadAnime(): Observable<Array<Anime>> {
     return this.http.get<AnimeOstResponse<Array<Anime>>>(this.animeUrl)
       .pipe(
         map(resp => mapAnime(resp)),
@@ -25,7 +44,11 @@ export class AnimeService {
       );
   }
 
-  getUserAnime(): Observable<Array<UserAnime>> {
+  onUserAnime(): Observable<Array<UserAnime>> {
+    return this.userAnime$;
+  }
+
+  private loadUserAnime(): Observable<Array<UserAnime>> {
     return this.http.get<AnimeOstResponse<Array<UserAnime>>>(this.userAnimeUrl)
       .pipe(
         map(resp => mapUserAnime(resp)),

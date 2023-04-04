@@ -6,6 +6,11 @@
     <input type="checkbox" [(ngModel)]="userCheckbox.isSelected" value="{{userCheckbox.value}}" (change)="checkAllCheckboxesSelected()">
     {{userCheckbox.value}}
 </label>
+<br>
+<label>
+    <input type="checkbox" [(ngModel)]="onlyCommonCheckbox" (change)="updateRowData()" value="Only Common">
+    Only Common
+</label>
 <table *ngIf="selectedUserList.length!=0" class="anime-ost-table">
     <tr class="anime-ost-row"></tr>
         <th *ngFor="let user of selectedUserList" class="anime-ost-header">
@@ -15,5 +20,8 @@
         <td *ngFor="let user of selectedUserList" class="anime-ost-cell">
             <app-anime-ost-entry [user]="user" [anime]="row.anime" [userAnime]="getUserAnimeFor(user.user_id, row)" [ostList]="row.ost"></app-anime-ost-entry>
         </td>
+        <app-anime-ost-modal id="ost-modal-{{row.anime.proxer_id}}">
+            <app-ost-modal [row]="row"></app-ost-modal>
+        </app-anime-ost-modal>
     </tr>
 </table>

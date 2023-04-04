@@ -9,6 +9,7 @@ app-anime-ost-entry {
     border-color: #006688;
     border-collapse: collapse;
     background-color: #f0ffff;
+    table-layout: fixed;
 }
 
 .anime-ost-header {
@@ -24,8 +25,6 @@ app-anime-ost-entry {
 }
 
 .anime-ost-cell {
-    padding-left: 10px;
-    padding-right: 10px;
     border: 2px;
     border-style: solid;
     border-color: #006688;

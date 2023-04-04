@@ -8,13 +8,17 @@ import { AnimeOstTableComponent } from './anime-ost-list/anime-ost-table/anime-o
 import { HttpClientModule } from '@angular/common/http';
 import { AnimeOstEntryComponent } from './anime-ost-list/anime-ost-table/anime-ost-entry/anime-ost-entry.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AnimeOstModalComponent } from './anime-ost-modal/anime-ost-modal.component';
+import { OstModalComponent } from './anime-ost-list/anime-ost-table/ost-modal/ost-modal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AnimeOstListComponent,
     AnimeOstTableComponent,
-    AnimeOstEntryComponent
+    AnimeOstEntryComponent,
+    AnimeOstModalComponent,
+    OstModalComponent
   ],
   imports: [
     BrowserModule,

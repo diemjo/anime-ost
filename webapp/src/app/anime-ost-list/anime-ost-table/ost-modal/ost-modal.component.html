@@ -1,0 +1,72 @@
+<div>
+    <h2 class="ost-anime-title">{{this.row?.anime?.proxer_name}}</h2>
+    <div style="padding-left: 10px;">
+        <label for="editing-label-{{row?.anime?.proxer_id}}" >Editing</label>
+        <input id="editing-label-{{row?.anime?.proxer_id}}" type="checkbox" [(ngModel)]="editing">
+    </div>
+</div>
+<div class="ost-container">
+    <div class="opening-list ost-list">
+        <ng-container *ngTemplateOutlet="ostlist; context: { $implicit: getOpenings(), ostType: openingType() }"></ng-container>
+    </div>
+    <div class="ending-list ost-list">
+        <ng-container *ngTemplateOutlet="ostlist; context: { $implicit: getEndings(), ostType: endingType() }"></ng-container>
+    </div>
+</div>
+
+<ng-template #ostlist let-ostList let-type="ostType">
+    <li class="ost-header">
+        <a class="ost-header-name">
+            {{(type.toString())}}s
+        </a>
+        <input type="button" value="+" (click)="addOst(type)" class="ost-header-button">
+    </li>
+    <li *ngFor="let ost of ostList" class="ost-entry">
+        <div class="ost-entry-info">
+            <a class="ost-entry-info-number">
+                {{type}} {{ost.number + 1}}:
+            </a>
+            <div class="ost-entry-info-name-artist">
+                <label for="ost-{{ost.type}}-{{ost.number}}-name" class="ost-textbox-label">name: </label>
+                <a *ngIf="!editing" id="ost-{{ost.type}}-{{ost.number}}-name" class="ost-textbox">
+                    {{ost.name}}
+                </a>
+                <input
+                    *ngIf="editing"
+                    type="text"
+                    id="ost-{{ost.type}}-{{ost.number}}-name"
+                    [(ngModel)]="ost.name"
+                    class="ost-textbox"
+                    (ngModelChange)="inputChanged(ost)">
+                <label for="ost-{{ost.type}}-{{ost.number}}-artist" class="ost-textbox-label">artist: </label>
+                <a *ngIf="!editing" id="ost-{{ost.type}}-{{ost.number}}-artist" class="ost-textbox">
+                    {{ost.artist}}
+                </a>
+                <input
+                    *ngIf="editing"
+                    type="text"
+                    id="ost-{{ost.type}}-{{ost.number}}-artist"
+                    [(ngModel)]="ost.artist"
+                    class="ost-textbox"
+                    (ngModelChange)="inputChanged(ost)">
+            </div>
+            <div class="ost-entry-info-video">
+                <label for="ost-{{ost.type}}-{{ost.number}}-video-url" class="ost-textbox-label">url: </label>
+                <a *ngIf="!editing && !ost.video_url" id="ost-{{ost.type}}-{{ost.number}}-video-url" class="ost-textbox">
+                    {{ost.video_url}}
+                </a>
+                <a *ngIf="!editing && ost.video_url" id="ost-{{ost.type}}-{{ost.number}}-video-url" [href]="ost.video_url" class="ost-textbox">
+                    {{ost.video_url}}
+                </a>
+                <input
+                    *ngIf="editing"
+                    type="url"
+                    id="ost-{{ost.type}}-{{ost.number}}-video-url"
+                    [(ngModel)]="ost.video_url"
+                    class="ost-textbox"
+                    (ngModelChange)="inputChanged(ost)">
+            </div>
+        </div>
+        <input *ngIf="ost === ostList[ostList.length-1]" type="button" value="-" (click)="removeOst(ost);" class="ost-entry-remove-button">
+    </li>
+</ng-template>

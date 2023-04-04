@@ -1,0 +1,110 @@
+.ost-anime-title {
+    text-align: center;
+}
+
+.ost-container {
+    display: flex;
+}
+
+.opening-list {
+}
+
+.ending-list {
+}
+
+.ost-list {
+    flex: 1;
+    width: 50%;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    /* padding: 10px; */
+    margin: 10px;
+}
+
+.ost-header {
+    display: flex;
+    width: 100%;
+    padding: 10px;
+}
+
+.ost-header .ost-header-name {
+    display: inline;
+    flex: 10;
+    font-size: large;
+    vertical-align: middle;
+}
+
+.ost-header .ost-header-button {
+    display: block;
+    flex: 1;
+    max-height: 40px;
+    max-width: 40px;
+    height: 40px;
+    margin-right: 25px;
+    font-size: large;
+}
+
+.ost-entry {
+    display: flex;
+    width: auto;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.ost-entry .ost-entry-info {
+    flex: 10;
+    padding: 5px;
+}
+
+.ost-entry .ost-entry-remove-button {
+    flex: 1;
+    display: inline;
+    max-height: 40px;
+    max-width: 40px;
+    height: 40px;
+    margin: 10px;
+    font-size: large;
+}
+
+.ost-entry-info-name-artist {
+    display: flex;
+}
+
+.ost-entry-info-video {
+    display: flex;
+}
+
+.ost-textbox-label {
+    display: flex;
+    align-items: center;
+    width: 55px;
+}
+
+.ost-textbox {
+    flex: 1;
+    border-color: transparent;
+    background-color: rgb(245, 246, 250);
+    margin: 2px 5px;
+    padding: 7px 7px 8px;
+    line-height: 1.28;
+    resize: none;
+    box-shadow: transparent 0px 0px 0px 1px;
+    transition: background 0.1s ease 0s;
+    overflow: auto;
+    overflow-y: hidden;  
+    border-radius: 3px;
+    appearance: none;
+    height: 20px;
+}
+
+.ost-textbox:hover:not(:focus) {  
+    background-color: rgb(235, 236, 240);
+}
+
+.ost-textbox:focus {
+    background-color: rgb(255,255,255);
+    border: 1px solid #4c9aff;
+    box-shadow: 0 0 0 1px #4c9aff;
+    outline: none;
+}

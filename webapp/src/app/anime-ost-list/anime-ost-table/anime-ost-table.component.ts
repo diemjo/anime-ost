@@ -8,7 +8,6 @@ import { OstService } from 'src/app/services/ost.service';
 import { UserService } from 'src/app/services/user.service';
 import * as _ from 'lodash';
 import { forkJoin } from 'rxjs';
-import { entries } from 'lodash';
 
 @Component({
   selector: 'app-anime-ost-table',
@@ -25,6 +24,7 @@ export class AnimeOstTableComponent {
 
   allUsersSelected: boolean = true;
   userCheckboxes: Array<UserCheckbox> = [];
+  onlyCommonCheckbox: boolean = false;
 
   constructor(
     private userService: UserService,
@@ -33,36 +33,36 @@ export class AnimeOstTableComponent {
   ) {}
 
   ngOnInit(): void {
-    forkJoin([
-      this.userService.getUsers(),
-      this.animeService.getAnime(),
-      this.animeService.getUserAnime(),
-      this.ostService.getOst(),
-    ]).subscribe(([userList, animeList, userAnimeList, ostList]) => {
-      this.getUsers(userList);
-      this.getAnime(animeList);
-      this.getUserAnime(userAnimeList);
-      this.getOst(ostList);
-      this.updateRowData();
-    })
+      this.userService.onUsers().subscribe(userList => this.onUsers(userList));
+      this.animeService.onAnime().subscribe(animeList => this.onAnime(animeList));
+      this.animeService.onUserAnime().subscribe(userAnimeList => this.onUserAnime(userAnimeList));
+      this.ostService.onOst().subscribe(ostList => this.onOst(ostList));
   }
 
-  getUsers(userList: Array<User>): void {
+  ngOnUpdate(): void {
+    console.log("Updated Table");
+  }
+
+  onUsers(userList: Array<User>): void {
     this.userList = userList;
     this.selectedUserList = userList;
     this.setUserCheckboxes();
+    this.updateRowData();
   };
 
-  getAnime(animeList: Array<Anime>): void {
-    this.animeList = animeList;
+  onAnime(animeList: Array<Anime>): void {
+    this.animeList = animeList.sort((a1, a2) => a1.proxer_name.toLowerCase().localeCompare(a2.proxer_name.toLowerCase()))
+    this.updateRowData();
   }
 
-  getUserAnime(userAnimeList: Array<UserAnime>): void {
+  onUserAnime(userAnimeList: Array<UserAnime>): void {
     this.userAnimeList = userAnimeList;
+    this.updateRowData();
   }
 
-  getOst(ostList: Array<Ost>): void {
+  onOst(ostList: Array<Ost>): void {
     this.ostList = ostList;
+    this.updateRowData();
   }
 
   updateRowData(): void {
@@ -72,6 +72,10 @@ export class AnimeOstTableComponent {
         .filter(ua => ua.proxer_id == anime.proxer_id);
       const users = this.selectedUserList.filter(user => userAnimeEntries.some(e => e.user_id == user.user_id));
       if (users.length==0) {
+        return undefined;
+      }
+      //console.log(`checkbox(${this.onlyCommonCheckbox}): ${users.length}/${this.selectedUserList.length} for ${anime.proxer_name}`);
+      if (this.onlyCommonCheckbox && users.length != this.selectedUserList.length) {
         return undefined;
       }
       const ost = this.ostList.filter(ost => ost.proxer_id == anime.proxer_id);

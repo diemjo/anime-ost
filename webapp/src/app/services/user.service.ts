@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/user';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { Observable, of, Subject, throwError } from 'rxjs';
+import { catchError, map, startWith, switchMap, tap } from 'rxjs/operators';
 import * as _ from 'lodash';
 import { AnimeOstResponse, mapUsers } from '../models/response';
 
@@ -11,12 +11,23 @@ import { AnimeOstResponse, mapUsers } from '../models/response';
 })
 export class UserService {
   private usersUrl = '/api/users';
+  private usersUpdated$ = new Subject<void>();
+  private users$: Observable<Array<User>>;
 
   constructor(
     private http: HttpClient,
-  ) { }
+  ) {
+    this.users$ = this.usersUpdated$.pipe(
+      startWith({}),
+      switchMap(() => this.loadUsers())
+    )
+  }
 
-  getUsers(): Observable<Array<User>> {
+  onUsers(): Observable<Array<User>> {
+    return this.users$;
+  }
+
+  loadUsers(): Observable<Array<User>> {
     return this.http.get<AnimeOstResponse<Array<User>>>(this.usersUrl)
       .pipe(
         map(resp => mapUsers(resp)),
